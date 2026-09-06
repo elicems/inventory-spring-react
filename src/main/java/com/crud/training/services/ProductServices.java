@@ -22,4 +22,7 @@ public class ProductServices {
         Optional<Product> obj = repo.findById(id);
         return obj.get();
     }
+    public Product insert(Product obj){
+        return repo.save(obj);
+    }
 }
