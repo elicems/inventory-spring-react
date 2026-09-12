@@ -26,18 +26,18 @@ public class ProductServices {
         Optional<Product> obj = repo.findById(id);
         return obj.get();
     }
-    public Product insert(Product obj){
-        if(obj == null || obj.getDescription() == null){
+    public Product insert(Product newProduct){
+        if(newProduct == null || newProduct.getDescription() == null){
                 throw new IllegalArgumentException("Product cannot be null");
         }
-        Optional<Product> existingProductOpt = findProductInInventory(obj);
+        Optional<Product> existingProductOpt = findProductInInventory(newProduct);
         if(existingProductOpt.isPresent()){
             Product existingProduct = existingProductOpt.get();
 
-            existingProduct.setQuantity(existingProduct.getQuantity() + obj.getQuantity());
+            existingProduct.setQuantity(existingProduct.getQuantity() + newProduct.getQuantity());
             repo.save(existingProduct);
         }else {
-            return repo.save(obj);
+            return repo.save(newProduct);
         }
         return null;
     }
@@ -50,15 +50,28 @@ public class ProductServices {
             throw new DatabaseException(e.getMessage());
         }
     }
+    public Product update(Long id,Product newProduct){
+        try {
+            Product p = repo.getReferenceById(id);
+            updateData(p,newProduct);
+            return repo.save(p);
+        }catch (ObjectNotFoundException e){
+            throw new ObjectNotFoundException(id);
+        }
+    }
     private Optional<Product> findProductInInventory(Product obj){
         if(obj == null || obj.getDescription() == null){
             return null;
         }
         List<Product> inventory = findAll();
-        String newProduct = obj.getDescription().replaceAll(" ","");
+        String newProductDescription = obj.getDescription().replaceAll(" ","");
         Optional<Product> found = inventory.stream().
                 filter(p -> p.getDescription().replaceAll(" ","").
-                        equalsIgnoreCase(newProduct)).findFirst();
+                        equalsIgnoreCase(newProductDescription)).findFirst();
         return found;
+    }
+    private void updateData(Product product,Product newProduct){
+        product.setDescription(newProduct.getDescription());
+        product.setQuantity(newProduct.getQuantity());
     }
 }
