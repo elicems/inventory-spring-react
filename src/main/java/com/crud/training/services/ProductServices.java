@@ -27,7 +27,19 @@ public class ProductServices {
         return obj.get();
     }
     public Product insert(Product obj){
-        return repo.save(obj);
+        if(obj == null || obj.getDescription() == null){
+                throw new IllegalArgumentException("Product cannot be null");
+        }
+        Optional<Product> existingProductOpt = findProductInInventory(obj);
+        if(existingProductOpt.isPresent()){
+            Product existingProduct = existingProductOpt.get();
+
+            existingProduct.setQuantity(existingProduct.getQuantity() + obj.getQuantity());
+            repo.save(existingProduct);
+        }else {
+            return repo.save(obj);
+        }
+        return null;
     }
     public void delete(Long id){
         try {
@@ -37,5 +49,16 @@ public class ProductServices {
         }catch (DataIntegrityViolationException e){
             throw new DatabaseException(e.getMessage());
         }
+    }
+    private Optional<Product> findProductInInventory(Product obj){
+        if(obj == null || obj.getDescription() == null){
+            return null;
+        }
+        List<Product> inventory = findAll();
+        String newProduct = obj.getDescription().replaceAll(" ","");
+        Optional<Product> found = inventory.stream().
+                filter(p -> p.getDescription().replaceAll(" ","").
+                        equalsIgnoreCase(newProduct)).findFirst();
+        return found;
     }
 }
