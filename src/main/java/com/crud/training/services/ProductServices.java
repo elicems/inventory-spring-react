@@ -35,11 +35,12 @@ public class ProductServices {
             Product existingProduct = existingProductOpt.get();
 
             existingProduct.setQuantity(existingProduct.getQuantity() + newProduct.getQuantity());
-            repo.save(existingProduct);
+            existingProduct.setTotalValue(existingProduct.getUnitPrice() * existingProduct.getQuantity());
+            return repo.save(existingProduct);
         }else {
+            newProduct.setTotalValue(newProduct.getUnitPrice() * newProduct.getQuantity());
             return repo.save(newProduct);
         }
-        return null;
     }
     public void delete(Long id){
         try {
@@ -73,5 +74,7 @@ public class ProductServices {
     private void updateData(Product product,Product newProduct){
         product.setDescription(newProduct.getDescription());
         product.setQuantity(newProduct.getQuantity());
+        product.setUnitPrice(newProduct.getUnitPrice());
+        product.setTotalValue(newProduct.getUnitPrice() * newProduct.getQuantity());
     }
 }

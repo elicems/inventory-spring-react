@@ -1,5 +1,6 @@
 package com.crud.training.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +19,6 @@ public class Product {
     private Long id;
     private String description;
     private Integer quantity;
+    private Double unitPrice;
+    private Double totalValue;
 }
