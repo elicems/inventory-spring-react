@@ -9,4 +9,7 @@ public class ProductFactory {
     public static Product build(Integer quantity){
         return new Product(0L,"",quantity,0.0,0.0);
     }
+    public static Product build(Double unitPrice){
+        return new Product(0L,"",0,unitPrice,0.0);
+    }
 }

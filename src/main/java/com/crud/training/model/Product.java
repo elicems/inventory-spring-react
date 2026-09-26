@@ -22,7 +22,7 @@ public class Product {
     private Double totalValue;
 
     public Boolean quantityIsGraterThanZero(){
-        return quantity >0;
+        return quantity >  0;
     }
     public Integer sumQuantity(Integer newQuantity){
         return this.quantity + newQuantity;

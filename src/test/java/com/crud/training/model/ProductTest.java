@@ -20,5 +20,16 @@ public class ProductTest {
         var product = ProductFactory.build(0);
         Assertions.assertFalse(product.quantityIsGraterThanZero());
     }
+    @Test
+    void shouldBeTrueWhenUnitPriceIsGreaterThanZero(){
+        var product = ProductFactory.build(100.0);
+        Assertions.assertTrue(product.unitPriceIsPositive());
+    }
+    @Test
+    void shouldBeFalseWhenUnitPriceIsAboveThanZero(){
+        var product = ProductFactory.build(-200.0);
+        Assertions.assertFalse(product.unitPriceIsPositive());
+
+    }
 
 }
