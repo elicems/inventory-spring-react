@@ -1,6 +1,5 @@
 package com.crud.training.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +21,8 @@ public class Product {
     private Double unitPrice;
     private Double totalValue;
 
-    public Boolean quantityIsPositive(){
-        return quantity >= 0;
+    public Boolean quantityIsGraterThanZero(){
+        return quantity >0;
     }
     public Integer sumQuantity(Integer newQuantity){
         return this.quantity + newQuantity;
@@ -32,7 +31,7 @@ public class Product {
         return unitPrice > 0.0;
     }
     public Double multiTotalValue(){
-        if(unitPriceIsPositive() && quantityIsPositive()){
+        if(unitPriceIsPositive() && quantityIsGraterThanZero()){
             return unitPrice * quantity;
         }
         else {

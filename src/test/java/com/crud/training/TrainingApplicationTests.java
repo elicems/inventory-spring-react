@@ -8,7 +8,6 @@ class   TrainingApplicationTests {
 
 	@Test
 	void contextLoads() {
-        System.out.println("FODASSE BOLSONARO");
 	}
 
 }
