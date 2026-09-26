@@ -24,11 +24,11 @@ public class ProductServices {
     }
     public Product findById(Long id){
         Optional<Product> obj = repo.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ObjectNotFoundException(id));
     }
     public Product insert(Product newProduct){
         if(newProduct == null || newProduct.getDescription() == null){
-                throw new IllegalArgumentException("Product cannot be null");
+                throw new DatabaseException("Product cannot be null!");
         }
         Optional<Product> existingProductOpt = findProductInInventory(newProduct);
         if(existingProductOpt.isPresent()){
