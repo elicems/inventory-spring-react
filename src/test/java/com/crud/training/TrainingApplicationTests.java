@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TrainingApplicationTests {
+class   TrainingApplicationTests {
 
 	@Test
 	void contextLoads() {
+        System.out.println("FODASSE BOLSONARO");
 	}
 
 }

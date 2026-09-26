@@ -21,4 +21,22 @@ public class Product {
     private Integer quantity;
     private Double unitPrice;
     private Double totalValue;
+
+    public Boolean quantityIsPositive(){
+        return quantity >= 0;
+    }
+    public Integer sumQuantity(Integer newQuantity){
+        return this.quantity + newQuantity;
+    }
+    public Boolean unitPriceIsPositive(){
+        return unitPrice > 0.0;
+    }
+    public Double multiTotalValue(){
+        if(unitPriceIsPositive() && quantityIsPositive()){
+            return unitPrice * quantity;
+        }
+        else {
+            return 0.0;
+        }
+    }
 }

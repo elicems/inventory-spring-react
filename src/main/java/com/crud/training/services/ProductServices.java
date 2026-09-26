@@ -34,11 +34,14 @@ public class ProductServices {
         if(existingProductOpt.isPresent()){
             Product existingProduct = existingProductOpt.get();
 
-            existingProduct.setQuantity(existingProduct.getQuantity() + newProduct.getQuantity());
-            existingProduct.setTotalValue(existingProduct.getUnitPrice() * existingProduct.getQuantity());
+            Integer newQuantity = existingProduct.sumQuantity(newProduct.getQuantity());
+            existingProduct.setQuantity(newQuantity);
+            Double totalValue = existingProduct.multiTotalValue();
+            existingProduct.setTotalValue(totalValue);
             return repo.save(existingProduct);
         }else {
-            newProduct.setTotalValue(newProduct.getUnitPrice() * newProduct.getQuantity());
+            Double totalValue = newProduct.multiTotalValue();
+            newProduct.setTotalValue(totalValue);
             return repo.save(newProduct);
         }
     }
@@ -75,6 +78,8 @@ public class ProductServices {
         product.setDescription(newProduct.getDescription());
         product.setQuantity(newProduct.getQuantity());
         product.setUnitPrice(newProduct.getUnitPrice());
-        product.setTotalValue(newProduct.getUnitPrice() * newProduct.getQuantity());
+        Double totalValue = newProduct.multiTotalValue();
+        product.setTotalValue(totalValue);
     }
+
 }
