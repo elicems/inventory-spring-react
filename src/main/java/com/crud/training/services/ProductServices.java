@@ -1,9 +1,11 @@
 package com.crud.training.services;
 
+import com.crud.training.dto.ProductFilterRequest;
 import com.crud.training.model.Product;
 import com.crud.training.repositories.ProductRepository;
 import com.crud.training.services.exceptions.DatabaseException;
 import com.crud.training.services.exceptions.ObjectNotFoundException;
+import com.crud.training.specification.ProductSpecification;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,10 @@ public class ProductServices {
         Optional<Product> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(id));
     }
+    public List<Product> filter(ProductFilterRequest request){
+        return repo.findAll(ProductSpecification.filter(request));
+    }
+
     public Product insert(Product newProduct){
         if(newProduct == null || newProduct.getDescription() == null){
                 throw new DatabaseException("Product cannot be null!");
@@ -67,7 +73,8 @@ public class ProductServices {
         if(obj == null || obj.getDescription() == null){
             return null;
         }
-        List<Product> inventory = findAll();
+
+        List<Product> inventory = repo.findAll();
         String newProductDescription = obj.getDescription().replaceAll(" ","");
         Optional<Product> found = inventory.stream().
                 filter(p -> p.getDescription().replaceAll(" ","").

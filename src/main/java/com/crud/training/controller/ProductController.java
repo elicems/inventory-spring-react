@@ -1,5 +1,6 @@
 package com.crud.training.controller;
 
+import com.crud.training.dto.ProductFilterRequest;
 import com.crud.training.model.Product;
 import com.crud.training.services.ProductServices;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +28,10 @@ public class ProductController {
     public ResponseEntity<List<Product>> findAll(){
         List<Product> list = services.findAll();
         return ResponseEntity.ok().body(list);
+    }
+    @GetMapping("/filter")
+    public List<Product> filter(ProductFilterRequest request){
+        return services.filter(request);
     }
     @GetMapping(value = "/{id}")
     @Operation(summary = "Show a products by id",description = "Show only one product with a informed id")
