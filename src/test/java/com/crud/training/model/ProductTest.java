@@ -29,7 +29,5 @@ public class ProductTest {
     void shouldBeFalseWhenUnitPriceIsAboveThanZero(){
         var product = ProductFactory.build(-200.0);
         Assertions.assertFalse(product.unitPriceIsPositive());
-
     }
-
 }
