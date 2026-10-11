@@ -30,9 +30,12 @@ public class ProductController {
         return ResponseEntity.ok().body(list);
     }
     @GetMapping("/filter")
+    @Operation(summary = "Filter search",description = "Display products filtered according to user preferences")
+
     public List<Product> filter(ProductFilterRequest request){
         return services.filter(request);
     }
+
     @GetMapping(value = "/{id}")
     @Operation(summary = "Show a products by id",description = "Show only one product with a informed id")
     public ResponseEntity<Product> findById(@PathVariable Long id){
