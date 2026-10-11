@@ -31,7 +31,6 @@ public class ProductController {
     }
     @GetMapping("/filter")
     @Operation(summary = "Filter search",description = "Display products filtered according to user preferences")
-
     public List<Product> filter(ProductFilterRequest request){
         return services.filter(request);
     }
