@@ -1,6 +1,5 @@
 package com.crud.training.services;
 
-import com.crud.training.model.Product;
 import com.crud.training.model.User;
 import com.crud.training.repositories.UserRepository;
 import com.crud.training.services.exceptions.DatabaseException;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.crud.training.model.User.isAValidEmail;
 
 @Service
 public class UserService {
@@ -27,8 +28,8 @@ public class UserService {
         return obj.orElseThrow(() -> new ObjectNotFoundException(id));
     }
     public User insert(User newUser){
-        if(newUser == null || newUser.getEmail().isBlank()){
-            throw new DatabaseException("The user cannot be null");
+        if(!isAValidEmail(newUser) || isADuplicatedEmail(newUser)){
+            return null;
         }
         return repo.save(newUser);
     }
@@ -53,5 +54,16 @@ public class UserService {
     private void updateData(User user,User newUser){
         user.setName(newUser.getName());
         user.setEmail(newUser.getEmail());
+    }
+    private boolean isADuplicatedEmail(User user){
+        if(isAValidEmail(user)){
+            List<User> list = repo.findAll();
+            for(User u:list){
+                if(u.getEmail().equalsIgnoreCase(user.getEmail())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
