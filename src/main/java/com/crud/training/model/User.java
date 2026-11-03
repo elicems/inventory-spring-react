@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "users")
 @Entity
 @NoArgsConstructor
@@ -19,6 +21,9 @@ public class User {
     private Long id;
     private String name;
     private String email;
+
+    @OneToMany
+    private List<Cart> shoppingCart;
 
     public static boolean isAValidEmail(User user){
         if(!user.getEmail().trim().contains("@")){

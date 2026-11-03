@@ -38,4 +38,7 @@ public class CartItem {
     public void setProduct(Product product){
         pk.setProduct(product);
     }
+    public Double getSubTotal(){
+        return price * quantity;
+    }
 }
